@@ -93,18 +93,15 @@ import (
 	"log"
 	"time"
 
+	"github.com/Surdy-A/course-api/handlers"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	handlers "github.com/Surdy-A/course-api/handlers"
-
 )
 
-var recipesHandler *handlers.recipesHandler
-
-func init()  {
+func init() {
 	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017/recipedb?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"))
 	if err != nil {
 		log.Fatal(err)
@@ -131,15 +128,14 @@ func init()  {
 	log.Println("Connected to MongoDB")
 	//collection := client.Database("recipedb").Collection("recipes")
 
-	
 }
 func main() {
 	router := gin.Default()
-	router.POST("/recipes", recipesHandler.NewRecipeHandler)
-	router.GET("/recipes", recipesHandler.ListRecipesHandler)
-	router.PUT("/recipes/:id", recipesHandler.UpdateRecipeHandler)
-	router.DELETE("/recipes/:id", recipesHandler.DeleteRecipeHandler)
-	router.GET("/recipes/:id", recipesHandler.GetOneRecipeHandler)
-	router.GET("/recipes/search", recipesHandler.SearchRecipesHandler)
+	router.POST("/recipes", handlers.NewRecipesHandler)
+	//router.GET("/recipes", handlers.ListRecipesHandler)
+	//router.PUT("/recipes/:id", handlers.UpdateRecipeHandler)
+	//router.DELETE("/recipes/:id", handlers.DeleteRecipeHandler)
+	// router.GET("/recipes/:id", handlers.GetOneRecipeHandler)
+	// router.GET("/recipes/search", handlers.SearchRecipesHandler)
 	router.Run()
 }
